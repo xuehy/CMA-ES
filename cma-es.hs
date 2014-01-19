@@ -134,7 +134,7 @@ evolution feval counteval eigeneval stopeval stopfitness n p_sig p_c c sigma xme
         evolution feval (counteval+1) eigeneval' stopeval stopfitness n p_sig' p_c' c' sigma'' xmean' (arx !! (head arindex)) param
   
 
--- main CAM-ES function
+-- main CMA-ES function
 cmaES :: (Vector Double -> Double) -> Int -> IO (Vector Double)
 cmaES feval n = do
   xmeans' <- rand n 1
@@ -152,10 +152,10 @@ cmaES feval n = do
 
 -- objective function
 f :: Vector Double -> Double
-f x = (x1-1.0)^2 + (x2-4.5)^2 + 10.0
+f x = (1.0-x1)^2+100.0*(x2-x1^2)^2
   where x1 = x @> 0
         x2 = x @> 1
         
 main = do
   x <- cmaES f 2
-  (putStr . vecdisp (dispf 2)) x 
+  (putStr . vecdisp (dispf 10)) x 
